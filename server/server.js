@@ -3,16 +3,29 @@ const socketio = require('socket.io');
 const http = require('http');
 
 const app = express();
-const server = http.createServer(app);
-const socketIo = socketio(server);
 
-app.use ('/', require('./router').route);
+// We need to run both of our app and socketio on the same server so we need to create a http server of our own 
+const server = http.createServer(app);
+const io = socketio(server);
+
+app.use('/', require('./router').route);
 
 // Using Socket.io for real time conversations
 
-socketIo.on ('connection', (socket) => {
+// Stuff from stack over flow 
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "https://www.differentServerDomain.fr https://www.differentServerDomain.fr");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+ 
+io.on('connection', (socket) => {
 
-    console.log('User has joined');
+    console.log('User has joined\n', `socket formed on ${socket.id}`);
+
+    socket.on('join', ({ name, room }) => {
+        console.log(name, room);
+    })
 
     // A specific instance of a socketIo
     socket.on('disconnect', () => {
@@ -21,4 +34,7 @@ socketIo.on ('connection', (socket) => {
 })
 
 const PORT = process.env.PORT || 8000;
-app.listen (PORT, () => console.log("server started on https://localhost:8000"));
+
+//  Now instead of app.listen you'll need server because it is the common point where 
+// your server and socket are interacting 
+server.listen(PORT, () => console.log("server started on https://localhost:8000"));
