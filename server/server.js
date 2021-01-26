@@ -12,19 +12,19 @@ app.use('/', require('./router').route);
 
 // Using Socket.io for real time conversations
 
-// Stuff from stack over flow 
-// app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "https://www.differentServerDomain.fr https://www.differentServerDomain.fr");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
- 
 io.on('connection', (socket) => {
 
     console.log('User has joined\n', `socket formed on ${socket.id}`);
 
-    socket.on('join', ({ name, room }) => {
+    socket.on('join', ({ name, room }, callback) => {
         console.log(name, room);
+
+        const err = 1;
+
+        if (err) {
+            callback({error: 'error'});
+        }
+
     })
 
     // A specific instance of a socketIo
