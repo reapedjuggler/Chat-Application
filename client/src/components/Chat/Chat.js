@@ -9,6 +9,7 @@ import './chat.css';
 import InfoBar from  '../infoBar/InfoBar'
 import Input from  '../input/Input'
 import Messages from '../messages/Messages'
+import RoomContent from '../Content/Content'
 
 let socket;
 
@@ -23,10 +24,11 @@ let connectionOptions =  {
 const Chat = ({ location }) => {
 
     const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
+    const [room, setRoom] = useState('');   
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const ENDPOINT = `localhost:8000`;
+    const [users, setUsers] = useState([]);
+    const ENDPOINT = `https://react-chat-application-me.herokuapp.com/`;
 
     useEffect(() => {
         
@@ -64,7 +66,21 @@ const Chat = ({ location }) => {
 
         // console.log(message.user, " and " , messages);
 
-    }, [messages]);
+        socket.on('roomData', ({users}) => {
+            console.log(users, "  iam user\n");
+            setUsers(users);
+        });
+
+
+    }, [messages, users]);
+
+    // useEffect (() => {
+
+
+    //     // console.log(message.user, " and " , messages);
+
+    // }, [users]);
+
 
     // Function for sending messages 
     const sendMessage = (event) => {
@@ -86,6 +102,7 @@ const Chat = ({ location }) => {
                 <Messages messages = {messages} name = {name} />
                 <Input message = {message} setMessage = {setMessage} sendMessage = {sendMessage}/>
             </div>
+            <RoomContent users = {users} />
         </div>
     )
 }

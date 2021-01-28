@@ -11,6 +11,7 @@ let connectionOptions =  {
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
+const cors = require('cors');
 
 const app = express();
 
@@ -21,7 +22,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 app.use('/', require('./router').route);
-
+app.use(cors());
 // Using Socket.io for real time conversations
 
 io.on('connection', (socket) => {
@@ -36,6 +37,7 @@ io.on('connection', (socket) => {
 
         if (error) {
             callback({error: error});
+            return;
         }
 
         socket.emit('message', { user: 'admin', text: `Yay! you made it, ${user.name}`});
@@ -43,6 +45,8 @@ io.on('connection', (socket) => {
         socket.broadcast.to(user.room).emit('message', {user: `admin`, text: `Everyone Welcome ${user.name}`});
 
         socket.join(user.room);
+
+        io.to(user.room).emit('roomData', {room: user.room, users: getUserInRoom(user.room)});
 
         callback();
 
@@ -58,6 +62,7 @@ io.on('connection', (socket) => {
         // socket.io excludes sender whereas io.to includes sender
         io.to(user.room).emit('message', {user:user.name, text: message});
 
+        
         callback();
     });
 

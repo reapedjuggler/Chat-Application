@@ -1,6 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import "./message.css"
+import ReactEmoji from 'react-emoji';
+
+import "./message.css";
 
 const Message = ({message, name}) => {
     
@@ -22,7 +24,7 @@ const Message = ({message, name}) => {
                 </p>
                 <div className = "messageBox backgroundBlue">
                     <p className = "messageText colorWhite">
-                        {text}
+                        {ReactEmoji.emojify(text)}
                     </p>
                 </div>
             </div>
@@ -33,7 +35,7 @@ const Message = ({message, name}) => {
                 <div className = "messageContainer justifyStart"> 
                 <div className = "messageBox backgroundLight">
                     <p className = "messageText colorDark">
-                        {text}
+                        {ReactEmoji.emojify(text)}
                     </p>
                 </div>
                 <p className = "sentText pl-10">
@@ -44,6 +46,6 @@ const Message = ({message, name}) => {
         )
     )
 
-}
+}; 
 
 export default Message;

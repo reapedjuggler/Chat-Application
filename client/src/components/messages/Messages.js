@@ -14,7 +14,7 @@ const Messages = ({messages, name}) => {
     console.log(...messages, "  ",name, "  ", messages);
 
     return (
-        <ScrolltoBottom>
+        <ScrolltoBottom className = "messages">
         <div>
 
             {/* Render messages as different components */}
