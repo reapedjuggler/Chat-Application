@@ -3,8 +3,11 @@ import React from 'react';
 import './input.css';
 
 const Input = ({message, setMessage, sendMessage}) => {
+    
+    
+    
     return (
-        <form clssName = "form">
+        <form className = "form">
 
             <input 
             type = "text"

@@ -10,6 +10,9 @@ import Message from '../message/Message';
 // component with the user who sent it
 
 const Messages = ({messages, name}) => {
+
+    console.log(...messages, "  ",name, "  ", messages);
+
     return (
         <ScrolltoBottom>
         <div>

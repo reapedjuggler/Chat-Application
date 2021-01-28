@@ -63,6 +63,12 @@ io.on('connection', (socket) => {
 
     // A specific instance of a socketIo
     socket.on('disconnect', () => {
+        const user = removeUser(socket.id);
+     
+        if (user) {
+            io.to(user.room).emit('message', {user: 'admin', text: `Sadge:/ ${user.name} left`})
+        }
+     
         console.log("User has left");
     })
 })

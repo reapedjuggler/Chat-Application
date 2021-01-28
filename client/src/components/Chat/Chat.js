@@ -58,11 +58,11 @@ const Chat = ({ location }) => {
     useEffect (() => {
 
         socket.on('message', (message) => {
-            // console.log(message, "  iam message\n");
+            console.log(message.user, "  iam message\n");
             setMessages([...messages, message]);
         });
 
-        console.log(message, " and " , messages);
+        // console.log(message.user, " and " , messages);
 
     }, [messages]);
 
