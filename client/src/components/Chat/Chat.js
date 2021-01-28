@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 import io from 'socket.io-client';
 
 import './chat.css';
+import InfoBar from  '../infoBar/InfoBar'
+import Input from  '../input/Input'
+import Messages from '../messages/Messages'
 
 let socket;
 
@@ -44,8 +47,6 @@ const Chat = ({ location }) => {
             console.log("heloooooooo");
         });
 
-        // console.log(socket);
-        
         return (() => {
             socket.emit('disconnected');
             socket.off();
@@ -55,10 +56,9 @@ const Chat = ({ location }) => {
 
 
     useEffect (() => {
-        console.log("  obtio\n\n ");
-        
+
         socket.on('message', (message) => {
-            console.log(message, "  iam message\n");
+            // console.log(message, "  iam message\n");
             setMessages([...messages, message]);
         });
 
@@ -79,14 +79,12 @@ const Chat = ({ location }) => {
     }
 
     return (
-        <div>
-            <h1>Chat</h1>
-            <div className = "outerContainer">
-                <div className = "innerContainer">
-                    <input value = {message} onChange = {(event) => setMessage(event.target.value)}
-                        onKeyPress = {event => (event.key === 'Enter' ? sendMessage(event): null)}
-                    />
-                </div>
+
+        <div className = "outerContainer">
+            <div className = "container">
+                <InfoBar room = {room} />
+                <Messages messages = {messages} name = {name} />
+                <Input message = {message} setMessage = {setMessage} sendMessage = {sendMessage}/>
             </div>
         </div>
     )
